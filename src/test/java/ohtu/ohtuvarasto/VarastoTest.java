@@ -65,4 +65,83 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void laittaminenLiikaaEiToimi() {
+        varasto.lisaaVarastoon(8);
+        varasto.lisaaVarastoon(3);
+
+        varasto.otaVarastosta(4);
+
+        // varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
+        assertEquals(4.0, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void ottaminenLiikaaEiToimi() {
+        varasto.lisaaVarastoon(8);
+
+        varasto.otaVarastosta(9);
+
+        assertEquals(10, varasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void alustaminenNegatiivisellaArvollaEiToimi() {
+        Varasto kalasto = new Varasto(-2);
+        
+        assertEquals(0, 0, vertailuTarkkuus);
+    }
+
+    @Test
+    public void alustaminenSaldollaJaTilavuudellaToimii() {
+        Varasto kalasto = new Varasto(10,2);
+        
+        assertEquals(8, kalasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void alustaminenSaldollaJaTilavuudellaNegatiivisestiSaldoEiToimii() {
+        Varasto kalasto = new Varasto(10,-2);
+        
+        assertEquals(10, kalasto.paljonkoMahtuu(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void alustaminenSaldollaJaHuonollaTilavuudellaEiToimii() {
+        Varasto kalasto = new Varasto(-2,2);
+        
+        assertEquals(0, 0, vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisataamVahemmanKuinNolla() {
+        varasto.lisaaVarastoon(-2);
+
+        // saldon pitäisi olla sama kun lisätty määrä
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+
+    @Test
+    public void otetaanVahemmanKuinNolla() {
+        varasto.otaVarastosta(-3);
+
+        // saldon pitäisi olla sama kun lisätty määrä
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void toStringToimii() {
+        String expected = "saldo = 0.0, vielä tilaa 10.0";
+        
+        assertEquals(expected, varasto.toString());
+    }
+    
+    
+    
+    
+    
+   
+    
+
 }
